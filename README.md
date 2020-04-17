@@ -22,15 +22,15 @@
 尋找留言: 尋找符合條件的留言
 
 範例測試
-1. 公司粉專網址 + 尋找貼文
+1. Bos巴菲特線上學院 粉專網址 + 尋找貼文
 
-# Bos巴菲特線上學院 https://www.facebook.com/buffettonlineschool/
+# https://www.facebook.com/buffettonlineschool/
 # 2020-04-10 2020-04-15
 # 按讚數: 100
 # Bos巴菲特線上學院.json
 
-2. 公司粉專網址 + 尋找留言
+2. Bos巴菲特線上學院 粉專網址 + 尋找留言
 
-# Bos巴菲特線上學院 https://www.facebook.com/buffettonlineschool/
+# https://www.facebook.com/buffettonlineschool/
 # 2020-04-10 2020-04-15
 # comments in Bos巴菲特線上學院.json
