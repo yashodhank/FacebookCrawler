@@ -21,16 +21,21 @@
 尋找貼文: 尋找符合條件的貼文
 尋找留言: 尋找符合條件的留言
 
+可輸入以下範例試試看程式喔
+
 範例測試
-1. Bos巴菲特線上學院 粉專網址 + 尋找貼文
+1. Bos巴菲特線上學院 粉專網址
 
-# https://www.facebook.com/buffettonlineschool/
-# 2020-04-10 2020-04-15
-# 按讚數: 100
-# Bos巴菲特線上學院.json
+網址: https://www.facebook.com/buffettonlineschool/
+日期: 2020-04-10 2020-04-15
+按讚數: 按讚數: 100
+檔名: Bos巴菲特線上學院.json
+尋找貼文
 
-2. Bos巴菲特線上學院 粉專網址 + 尋找留言
+2. Bos巴菲特線上學院 粉專網址
 
-# https://www.facebook.com/buffettonlineschool/
-# 2020-04-10 2020-04-15
-# comments in Bos巴菲特線上學院.json
+網址: https://www.facebook.com/buffettonlineschool/
+日期: 2020-04-10 2020-04-15
+按讚數: 100
+檔名: comments in Bos巴菲特線上學院.json
+尋找留言
