@@ -35,7 +35,7 @@
 2. Bos巴菲特線上學院 粉專網址
 
 網址: https://www.facebook.com/buffettonlineschool/
-日期: 2020-04-10 2020-04-15
+\n日期: 2020-04-10 2020-04-15
 按讚數: 100
 檔名: comments in Bos巴菲特線上學院.json
 尋找留言
