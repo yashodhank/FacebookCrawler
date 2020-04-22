@@ -3,9 +3,13 @@ from tkinter.messagebox import *
 import time
 from bs4 import BeautifulSoup
 from selenium import webdriver
+from selenium.webdriver.support.wait import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.common.by import By
 from selenium.common.exceptions import ElementClickInterceptedException
 import json
 import datetime
+
 
 # 能輸入fb帳號密碼的功能
 def login_fb(page_url, your_email, your_pw):
@@ -45,6 +49,16 @@ def login_fb(page_url, your_email, your_pw):
     return driver
 
 
+def change_lang(driver):
+    driver.execute_script("window.scrollTo(0,1000)")
+    langs = driver.find_elements_by_class_name("_5f4c")
+    for lang in langs:
+        if lang.text == "English (US)":
+            lang.click()
+            button = WebDriverWait(driver, 5, 0.5).until(EC.element_to_be_clickable((By.CLASS_NAME, "layerConfirm")))
+            button.click()
+
+
 # 取得所有貼文的資訊
 def get_posts(driver):
     soup = BeautifulSoup(driver.page_source, "html5lib")
@@ -72,6 +86,7 @@ def get_post_time(driver):
 def timeStr_to_timeOBj(string):
     timeObj = datetime.datetime.strptime(string, "%Y-%m-%d")
     return timeObj
+
 
 # 功能為判斷driver取得的畫面中的貼文是否在所指定的時間中，若沒有則自動向下滾動取得更多貼文
 def get_posts_of_period(driver, post_dateObj_list, start_date):
@@ -194,10 +209,14 @@ def filter_thumbsup_number(posts_infos, number):
     return popular_posts
 
 
-def save_json(filename, data):
-    f = open(filename, "w", encoding="utf-8")
-    json.dump(data, f, indent=2, ensure_ascii=False)
-    f.close()
+def save_json(data):
+    if json_name.get() == "":
+        print("未輸入JSON檔名，不會儲存資料")
+    else:
+        print("將抓到的資料儲存至 {} 中...".format(json_name.get()))
+        f = open(json_name.get(), "w", encoding="utf-8")
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.close()
 
 
 def collecting_comments(posts):
@@ -247,6 +266,8 @@ def collecting_comments(posts):
 
 def show_comments_data():
     driver = login_fb(url.get(), e_mail.get(), password.get())
+    # 將 Facebook地顯示語言換成英文
+    change_lang(driver)
     # 如果是社團首頁則轉換成最近貼文先顯示
     for i in range(3):
         try:
@@ -289,12 +310,13 @@ def show_comments_data():
             showinfo("重要訊息", "沒有任何{}的留言".format(user_name.get()))
         else:
             # 印出貼文
+            print("找到含有 {} 流言的貼文：{} 則".format(user_name.get(), len(posts_with_comments)))
             for post in posts_with_comments:
                 print(post, end="\n")
             # 儲存資料到json檔
-            save_json(json_name.get(), posts_with_comments)
+            save_json(posts_with_comments)
     else:
-        save_json(json_name.get(), posts_with_comments)
+        save_json(posts_with_comments)
 
     driver.quit()
 
@@ -302,8 +324,8 @@ def show_comments_data():
 def show_post_data():
     # 登入fb
     driver = login_fb(url.get(), e_mail.get(), password.get())
-    # 取的畫面中的貼文時間字串，將字串轉換成日期物件並放入一個串列
-
+    # 將 Facebook地顯示語言換成英文
+    change_lang(driver)
     # 如果是社團首頁則轉換成最近貼文先顯示
     for i in range(3):
         try:
@@ -320,6 +342,7 @@ def show_post_data():
             if area.text == "Posts":
                 area.click()
                 break
+    # 取的畫面中的貼文時間字串，將字串轉換成日期物件並放入一個串列
     post_time_object_list = get_post_time(driver)
     # 找出起始日期到結束日期的貼文
     time.sleep(2)
@@ -335,12 +358,15 @@ def show_post_data():
     if user_name.get() != "":
         posts_infos = [post for post in posts_infos if post["username"] == user_name.get()]
 
-    #印出貼文
-    for post in posts_infos:
-        print(post, end="\n")
-
-    # 儲存資料到json檔
-    save_json(json_name.get(), posts_infos)
+    if len(posts_infos) == 0:
+        showinfo("重要訊息", "沒有符合條件的貼文")
+    else:
+        # 印出貼文
+        print("找到符合條件的貼文：{} 則".format(len(posts_infos)))
+        for post in posts_infos:
+            print(post, end="\n")
+        # 儲存資料到json檔
+        save_json(posts_infos)
 
     driver.quit()
 
